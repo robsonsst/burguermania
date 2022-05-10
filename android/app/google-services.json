@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1042660783727",
+    "project_id": "burguermania-18638",
+    "storage_bucket": "burguermania-18638.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042660783727:android:c45afa001462e726c7bf9a",
+        "android_client_info": {
+          "package_name": "com.burguermania"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042660783727-4ihrdi4dfv97vfnj0letg9vtaotcj105.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX-vwLQwhNs0faEQinI-Yf_79UxWODp1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042660783727-4ihrdi4dfv97vfnj0letg9vtaotcj105.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
