@@ -23,6 +23,8 @@ export default function AddAddress({ navigation }) {
   const [number, setNumber] = useState('');  
   const [reference, setReference] = useState('');
 
+  let idCart;
+
   function verifications() {
     if (
       city === '' ||
@@ -35,6 +37,7 @@ export default function AddAddress({ navigation }) {
       Alert.alert('ERRO', 'Campos vazios');
       return; //Não executa o que está abaixo
     }  
+    //adiciona endereço no banco
     firestore().collection('address').add({      
       city: city,
       cep: cep,      
@@ -43,7 +46,45 @@ export default function AddAddress({ navigation }) {
       number: number,
       reference: reference,
     });
-    navigation.navigate('MyBar');
+
+    //pega todos os produtos do carrinho
+    firestore()
+    .collection('cart')
+    .get()
+    .then((querySnapshot) => {
+      let list = [];
+      
+      querySnapshot.forEach((doc) => {
+        const cartItems = {
+          id: doc.id,            
+          image: doc.data().image,
+          title: doc.data().title,
+          notes: doc.data().notes,
+          price: doc.data().price,
+        };          
+        list.push(cartItems);
+        idCart = cartItems.id;
+      });      
+    })
+    .catch((e) => {
+      console.log('Cart, useEffect: ' + e);
+    });
+    
+    Alert.alert('SUCESSO', 'Pedido efetuado!!!');
+    deleteCart();
+    navigation.navigate('MyBar');    
+  }
+
+  //deleta produtos do carrinho ao finalizar compra
+  function deleteCart(){
+    firestore()
+    .collection('cart')
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((idCart)=>{                
+        idCart.ref.delete();
+      })
+    })
   }
 
   return (

@@ -7,7 +7,7 @@ export const Container = styled.View`
 `;
 
 export const TextPrincipal = styled.Text`
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   font-size: 27px;
   font-family: ${props => props.theme.regular};
   color: #000;
@@ -17,13 +17,12 @@ export const ContainerCard = styled.View`
   flex-direction: column;
   width: 100%;
   padding: 5px;
-  margin-bottom: 8px;
-  border-radius: 7px;
+  margin-bottom: 8px;  
   background-color: ${props => props.theme.background};
 `;
 
-export const ContainerItemsCard = styled.View`
-  flex-direction: row;    
+export const ContainerItemsCard = styled.TouchableOpacity`
+  flex-direction: column;    
   width: 100%;  
 `;
 

@@ -58,14 +58,14 @@ export default function Address({ navigation }) {
   return (
     <Container>
       
-      <View><TextPrincipal>Endereços Cadastrados</TextPrincipal></View>
+      <View><TextPrincipal>Cartões Cadastrados</TextPrincipal></View>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={card}       
         renderItem={({ item }) => {
           return (            
             <ContainerCard>
-              <ContainerItemsCard>                
+              <ContainerItemsCard onPress={() => navigation.navigate("Address")}>                
                 <TextItem> {item.nickName} - {item.validity} </TextItem>
                 <TextItem> {item.numberCard} </TextItem>                
               </ContainerItemsCard>              

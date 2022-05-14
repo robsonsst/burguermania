@@ -22,6 +22,7 @@ import AddCard from "../../pages/Payment/AddCard";
 import Address from "../../pages/Address";
 import Card from "../../pages/Payment/Card";
 import AddAddress from "../../pages/Address/AddAddress";
+import ProductProgress from "../../pages/ProductProgress";
 
 const Stack = createNativeStackNavigator();
 
@@ -259,6 +260,22 @@ export default function MyStack() {
           <Stack.Screen 
             name="AddAddress" 
             component={AddAddress}
+            options={{
+              headerTitle: (props) => (
+                <Image
+                  style={{ width: 250, height: 80, marginBottom: 10 }}
+                  source={require("../../assets/burguer-mania-logo.png")}
+                  resizeMode="contain"
+                />
+              ),
+              headerStyle: {
+                backgroundColor: '#8c4e77',
+              },                    
+            }} 
+          />
+          <Stack.Screen 
+            name="ProductProgress" 
+            component={ProductProgress}
             options={{
               headerTitle: (props) => (
                 <Image

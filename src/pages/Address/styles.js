@@ -18,12 +18,11 @@ export const ContainerAddress = styled.View`
   width: 100%;
   padding: 5px;
   margin-bottom: 8px;
-  border-radius: 7px;
   background-color: ${props => props.theme.background};
 `;
 
-export const ContainerItemsAddress = styled.View`
-  flex-direction: row;    
+export const ContainerItemsAddress = styled.TouchableOpacity`
+  flex-direction: column;    
   width: 100%;  
 `;
 

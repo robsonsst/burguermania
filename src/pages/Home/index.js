@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ScrollView } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 
 import TelaInicial from '../../component/TelaInicial';
 import { Container, ItemScroll } from './styles';
@@ -8,6 +8,11 @@ import { Container, ItemScroll } from './styles';
 export default function Home({ navigation }) {
   return (
     <Container>
+      <ScrollView horizontal={true}>
+        <Text>a</Text>
+        <Text>b</Text>
+        <Text>c</Text>
+      </ScrollView>
       <ScrollView>        
         <ItemScroll>
           <TelaInicial
