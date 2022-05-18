@@ -57,7 +57,9 @@ export default function MyStack() {
 
   */
   return (
-    <Stack.Navigator initialRouteName="MyBar" >
+    <Stack.Navigator initialRouteName="SignIn" screenOptions={{
+      headerTintColor: '#fff'
+    }}>
       
       <Stack.Screen
         name="Preload"
@@ -84,7 +86,16 @@ export default function MyStack() {
         name="ResetPassword" 
         component={ResetPassword}            
         options={{
-          headerShown: false,
+          headerTitle: (props) => (
+            <Image
+              style={{ width: 375, height: 80, marginBottom: 10 }}
+              source={require("../../assets/burguer-mania-logo.png")}
+              resizeMode="contain"
+            />
+          ),          
+          headerStyle: {
+            backgroundColor: '#8c4e77',            
+          },
         }}
       />
   

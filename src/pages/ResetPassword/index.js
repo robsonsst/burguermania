@@ -48,7 +48,7 @@ export default function ResetPassword({ navigation }) {
   }
 
   return (
-    <Container>
+    <Container>      
       <Title>
         Digite seu e-mail e enviaremos um link para redefinição de senha.
       </Title>
