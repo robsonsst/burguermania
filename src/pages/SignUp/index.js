@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import { CommonActions } from '@react-navigation/native';
 
-import {  
-  Alert
-} from 'react-native';
+import { Alert } from 'react-native';
 
 import { 
   Container, 
@@ -19,6 +18,7 @@ import {
 } from './styles';
 
 export default function SignUp({ navigation }) {
+  
   const [email, setEmail] = useState('');
   const [nome, setNome] = useState('');
   const [sobrenome, setSobrenome] = useState('');
@@ -29,20 +29,44 @@ export default function SignUp({ navigation }) {
 
   function logon() {
     if (
-      email === '' ||
-      nome === '' ||
-      sobrenome === '' ||
-      usuario === '' ||
-      telefone === '' ||
-      password === '' ||
-      confirmPassword === ''
+      email !== '' &&
+      nome !== '' &&
+      sobrenome !== '' &&
+      usuario !== '' &&
+      telefone !== '' &&
+      password !== '' &&
+      confirmPassword !== ''
     ) {
-      Alert.alert('ERRO', 'Campos vazios');
-      return; //Não executa o que está abaixo
+      auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() =>{
+          let userFirebase = auth().currentUser;
+          userFirebase.sendEmailVerification()
+          .then(() => {
+            Alert.alert('Informação', 'Foi enviado um e-mail para: ' + email + ' para verificação.');   
+            navigation.navigate('SignIn');
+          })
+          .catch((e) =>{
+            Alert.alert('SignUp', 'logon: ' + e);
+          });          
+        })
+        .catch((e) => {
+          console.log('SignUp: erro no cadastro: ' + e);
+          switch(e.code){                        
+            case 'auth/email-already-exists':
+              Alert.alert('Erro', 'Este e-mail já está cadastrado!');
+              break;
+            case 'auth/invalid-email': 
+              Alert.alert('Erro', 'Digite um e-mail válido');
+              break;
+            case 'auth/weak-password': 
+              Alert.alert('Erro', 'Digite uma senha com mais de 6 caracteres');
+              break;             
+          }
+        });              
+    } else{
+      Alert.alert('Erro', 'Por favor, digite nos campos para continuar.');
     }
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .catch((error) => Alert.alert(error.code, error.message));      
   }  
 
   return (
@@ -57,8 +81,11 @@ export default function SignUp({ navigation }) {
         <Input          
           placeholder="E-mail"
           placeholderTextColor={'#BF8DB2'}
-          value={email}
+          keyboardType="email-address"
+          returnKeyType="next"
+          value={email}          
           onChangeText={(value) => setEmail(value)}
+          
         />
       </ContainerInput>
 
@@ -67,52 +94,60 @@ export default function SignUp({ navigation }) {
           placeholder="Nome"
           placeholderTextColor={'#BF8DB2'}
           value={nome}
-          onChangeText={(value) => setNome(value)}
+          returnKeyType="next"
+          onChangeText={(value) => setNome(value)}          
         />
       </ContainerInput>
 
       <ContainerInput>
-        <Input          
+        <Input                  
           placeholder="Sobrenome"
           placeholderTextColor={'#BF8DB2'}
           value={sobrenome}
+          returnKeyType="next"
           onChangeText={(value) => setSobrenome(value)}
         />
       </ContainerInput>
 
       <ContainerInput>
-        <Input          
+        <Input                 
           placeholder="Nome de usuário"
           placeholderTextColor={'#BF8DB2'}
           value={usuario}
-          onChangeText={(value) => setUsuario(value)}
+          returnKeyType="next"
+          onChangeText={(value) => setUsuario(value)}          
         />
       </ContainerInput>
 
       <ContainerInput>
-        <Input          
+        <Input              
           placeholder="Telefone"
           placeholderTextColor={'#BF8DB2'}
           value={telefone}
-          onChangeText={(value) => setTelefone(value)}
+          returnKeyType="next"
+          onChangeText={(value) => setTelefone(value)}          
         />
       </ContainerInput>
 
       <ContainerInput>
-        <Input          
+        <Input           
+          secureTextEntry={true}
           placeholder="Senha"
           placeholderTextColor={'#BF8DB2'}
+          returnKeyType="next"
           value={password}
-          onChangeText={(value) => setPassword(value)}
+          onChangeText={(value) => setPassword(value)}          
         />
       </ContainerInput>
 
       <ContainerInput>
-        <Input          
+        <Input                
+          secureTextEntry={true}
           placeholder="Confirmar Senha"
           placeholderTextColor={'#BF8DB2'}
+          returnKeyType="go"
           value={confirmPassword}
-          onChangeText={(value) => setConfirmPassword(value)}
+          onChangeText={(value) => setConfirmPassword(value)}          
         />
       </ContainerInput>
 

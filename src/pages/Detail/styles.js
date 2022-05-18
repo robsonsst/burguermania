@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1px;
   width: 100%;
   background-color: ${props => props.theme.background};
@@ -73,7 +73,8 @@ export const InputNotes = styled.TextInput`
 export const ContainerAddCart = styled.View`
   flex-direction: row;
   width: 90%;
-  margin: 15px;
+  margin-bottom: 55px;
+  margin-left: 15px;
   top: 50px;
   left: 5px;
   justify-content: space-between;

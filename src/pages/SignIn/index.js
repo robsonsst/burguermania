@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
-import { useNavigation } from '@react-navigation/native';
-
-import SignUp from '../SignUp';
+import { CommonActions } from '@react-navigation/native';
 
 import {    
-    TouchableOpacity,     
-    View,
-    Text
+    TouchableOpacity,      
+    Alert
 } from 'react-native';
 
 import { Feather, Fontisto, MaterialCommunityIcons } from '@expo/vector-icons'
@@ -28,19 +25,85 @@ import {
   ButtonSocial  
 } from './styles';
 
+/*
+const [errorSignIn, setErrorSignIn] = useState("");
+
+setErrorSignIn(true);
+
+{errorSignIn === true
+?      
+<View style={{flexDirection:"row", marginTop: 10}}>
+  <MaterialCommunityIcons 
+    name="alert-circle"
+    size={24}
+    color="#FFF"
+  />
+  <Text>  Há Campos vazios!</Text>
+</View>
+:
+<View/>
+}
+  TODO: retirar se for usar somente o alert
+*/
+
 export default function SignIn({navigation}) {        
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);  
-  const [errorSignIn, setErrorSignIn] = useState("");
+  
 
   function signIn(){
-    if(email === '' || password === ''){      
-      setErrorSignIn(true);
-      return; 
-    };
-    auth().signInWithEmailAndPassword(email, password);
+    if(email !== '' && password !== ''){      
+
+      auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        if(!auth().currentUser.emailVerified){
+          Alert.alert('Erro', 'Você deve verificar o seu email para prosseguir.');          
+        }else{
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'MyBar'}],
+            }),
+          );
+        }                
+      })
+      .catch((e) => {
+        console.log('SignIn: erro ao entrar: ' + e);
+        switch(e.code){
+          case 'auth/user-not-found': 
+            Alert.alert('Erro', 'Usuário não cadastrado.');
+            break;                
+          case 'auth/wrong-password':
+            Alert.alert('Erro', 'Senha incorreta!');
+            break;
+          case 'auth/invalid-email': 
+            Alert.alert('Erro', 'Digite um e-mail válido');
+            break;
+        }
+      });
+    } else {
+      Alert.alert('Erro' , 'Por favor, digite e-mail e senha para continuar.');
+    }
+  };
+
+  function signUp(){
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'SignUp'}],
+      }),
+    );
+  };
+
+  function resetPassword(){
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'ResetPassword'}],
+      }),
+    );
   }
 
   return (
@@ -84,22 +147,9 @@ export default function SignIn({navigation}) {
             color={"#BF8DB2"}
           />          
         </TouchableOpacity>              
-      </ContainerInputPassword>
-      {errorSignIn === true
-      ?      
-      <View style={{flexDirection:"row", marginTop: 10}}>
-        <MaterialCommunityIcons 
-          name="alert-circle"
-          size={24}
-          color="#FFF"
-        />
-        <Text>  Há Campos vazios!</Text>
-      </View>
-      :
-      <View/>
-      }
+      </ContainerInputPassword>      
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={resetPassword}>
         <TextResetPassword>esqueceu sua senha?</TextResetPassword>
       </TouchableOpacity>
 
@@ -107,7 +157,7 @@ export default function SignIn({navigation}) {
         <CustomButton onPress={signIn}>
           <TextCustomButton>ENTRAR</TextCustomButton>
         </CustomButton>
-        <CustomButton onPress={() => navigation.navigate('SignUp')}>
+        <CustomButton onPress={signUp}>
           <TextCustomButton>CADASTRAR</TextCustomButton>
         </CustomButton>
       </ContainerButtons>
