@@ -57,7 +57,7 @@ export default function MyStack() {
 
   */
   return (
-    <Stack.Navigator initialRouteName="Sobremesa" >
+    <Stack.Navigator initialRouteName="MyBar" >
       
       <Stack.Screen
         name="Preload"

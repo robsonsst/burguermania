@@ -37,7 +37,8 @@ export default function Address({ navigation }) {
             cvv: doc.data().cvv,
             cardHolder: doc.data().cardHolder,
             cpf: doc.data().cpf,
-            nickName: doc.data().nickName            
+            nickName: doc.data().nickName,
+            selectedPayment: doc.data().selectedPayment            
           };
 
           list.push(cardItems);
@@ -66,7 +67,7 @@ export default function Address({ navigation }) {
           return (            
             <ContainerCard>
               <ContainerItemsCard onPress={() => navigation.navigate("Address")}>                
-                <TextItem> {item.nickName} - {item.validity} </TextItem>
+                <TextItem> {item.nickName} - {item.selectedPayment} </TextItem>
                 <TextItem> {item.numberCard} </TextItem>                
               </ContainerItemsCard>              
               <ContainerIcons>

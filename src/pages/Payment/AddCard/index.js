@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
 
 import firestore from '@react-native-firebase/firestore';
 
 import {  
-  Alert
+  Alert, View
 } from 'react-native';
 
 import { 
@@ -23,6 +24,8 @@ export default function AddCard({ navigation }) {
   const [cardHolder, setCardHolder] = useState('');
   const [cpf, setCpf] = useState('');
   const [nickName, setNickName] = useState('');  
+  const [selectedPayment, setSelectedPayment] = useState(''); 
+  //TODO: corrigir select de pagamento  
 
   function verifications() {
     if (
@@ -31,7 +34,8 @@ export default function AddCard({ navigation }) {
       cvv === '' ||
       cardHolder === '' ||
       cpf === '' ||
-      nickName === ''
+      nickName === '' ||
+      selectedPayment === ''
     ) {
       Alert.alert('ERRO', 'Campos vazios');
       return; //Não executa o que está abaixo
@@ -43,8 +47,9 @@ export default function AddCard({ navigation }) {
       cardHolder: cardHolder,
       cpf: cpf,
       nickName: nickName,
+      selectedPayment: selectedPayment,      
     });
-    navigation.navigate('AddAddress');
+    navigation.navigate('Card');
   }
 
   return (
@@ -104,7 +109,20 @@ export default function AddCard({ navigation }) {
           value={nickName}
           onChangeText={(value) => setNickName(value)}
         />
-      </ContainerInput>      
+      </ContainerInput>   
+
+      <View>
+        <Picker style={{width: 340, height: 90}}
+          selectedValue={selectedPayment}
+          onValueChange={(item, indexItem) => {            
+              setSelectedPayment(item);            
+          }}          
+        >
+          <Picker.Item key={0} label={"Selecione uma forma de pagamento"} value={" "}/>
+          <Picker.Item key={1} label={"Crédito"} value={"Crédito"}/>
+          <Picker.Item key={2} label={"Débito"} value={"Débito"}/>          
+        </Picker>  
+      </View>
 
       <ContainerButton        
         onPress={verifications}        

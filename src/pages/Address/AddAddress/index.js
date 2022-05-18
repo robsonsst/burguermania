@@ -68,11 +68,8 @@ export default function AddAddress({ navigation }) {
     })
     .catch((e) => {
       console.log('Cart, useEffect: ' + e);
-    });
-    
-    Alert.alert('SUCESSO', 'Pedido efetuado!!!');
-    deleteCart();
-    navigation.navigate('MyBar');    
+    });        
+    navigation.navigate('Address');    
   }
 
   //deleta produtos do carrinho ao finalizar compra

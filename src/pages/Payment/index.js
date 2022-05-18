@@ -25,6 +25,11 @@ export default function Payment({ navigation }) {
 
   const [refreshing, setRefreshing] = useState(false);
 
+  //Arredonda casas decimais para 2
+  function approach(n) {
+    return (Math.round(n * 100) / 100).toFixed(2);
+  }
+
   const wait = (timeout) => {
     return new Promise((resolver) => setTimeout(resolver, timeout * 1000));
   };
@@ -92,7 +97,7 @@ export default function Payment({ navigation }) {
         }}
       />
       <View>
-        <TextTotalPrice>R$ {totalPrice}</TextTotalPrice>
+        <TextTotalPrice>R$ {approach(totalPrice)}</TextTotalPrice>
       </View>
       <ContainerButtons>
         <CustomButtom onPress={() => navigation.navigate('Card')}>
