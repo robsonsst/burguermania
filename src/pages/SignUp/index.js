@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { CommonActions } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
-import { Alert } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
+import { Alert, StyleSheet } from 'react-native';
 
 import { 
   Container, 
@@ -16,6 +18,7 @@ import {
   TextMessageButtonSignIn,
   TextMessageButtonSignInBold
 } from './styles';
+
 
 export default function SignUp({ navigation }) {
   
@@ -37,33 +40,58 @@ export default function SignUp({ navigation }) {
       password !== '' &&
       confirmPassword !== ''
     ) {
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(() =>{
-          let userFirebase = auth().currentUser;
-          userFirebase.sendEmailVerification()
-          .then(() => {
-            Alert.alert('Informação', 'Foi enviado um e-mail para: ' + email + ' para verificação.');   
-            navigation.navigate('SignIn');
+      if(password === confirmPassword){
+        auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(() =>{
+            let userFirebase = auth().currentUser;
+            
+            //Persiste dados do usuário no firebase
+            let user = {};
+            user.email = email;
+            user.nome = nome;          
+            user.sobrenome = sobre;
+            user.usuario = usuario;
+            user.telefone = telefone;
+  
+            firestore()
+              .collection('users')
+              .doc(userFirebase.uid)
+              .set(user)
+              .then(() => {
+                console.log('SignUp, logon : Usuário adicionado');
+                
+                //envia email de verificação
+                userFirebase.sendEmailVerification()
+                .then(() => {
+                  Alert.alert('Informação', 'Foi enviado um e-mail para: ' + email + ' para verificação.');   
+                  navigation.navigate('SignIn');
+                })
+                .catch((e) =>{
+                  console.log('SignUp', 'logon: ' + e);
+                });          
+              })
+              .catch((e) => {
+                console.log('SignUp: erro no cadastro: ' + e);
+              });
           })
-          .catch((e) =>{
-            Alert.alert('SignUp', 'logon: ' + e);
-          });          
-        })
-        .catch((e) => {
-          console.log('SignUp: erro no cadastro: ' + e);
-          switch(e.code){                        
-            case 'auth/email-already-exists':
-              Alert.alert('Erro', 'Este e-mail já está cadastrado!');
-              break;
-            case 'auth/invalid-email': 
-              Alert.alert('Erro', 'Digite um e-mail válido');
-              break;
-            case 'auth/weak-password': 
-              Alert.alert('Erro', 'Digite uma senha com mais de 6 caracteres');
-              break;             
-          }
-        });              
+          .catch((e) => {
+            console.log('SignUp: erro no cadastro: ' + e);
+            switch(e.code){                        
+              case 'auth/email-already-exists':
+                Alert.alert('Erro', 'Este e-mail já está cadastrado!');
+                break;
+              case 'auth/invalid-email': 
+                Alert.alert('Erro', 'Digite um e-mail válido');
+                break;
+              case 'auth/weak-password': 
+                Alert.alert('Erro', 'Digite uma senha com mais de 6 caracteres');
+                break;             
+            }
+          });              
+      } else{
+        Alert.alert('Erro', 'As senhas informadas são diferentes. Por favor, digite senhas iguais para continuar');  
+      }
     } else{
       Alert.alert('Erro', 'Por favor, digite nos campos para continuar.');
     }
@@ -129,6 +157,19 @@ export default function SignUp({ navigation }) {
         />
       </ContainerInput>
 
+      <TextInputMask
+        style={styles.input} 
+        placeholder="Telefone"
+        placeholderTextColor={'#BF8DB2'}
+        type={'cel-phone'}       
+        options={{
+          maskType: 'BRL',
+          withDDD: true,
+          dddMask: '(99) '
+        }}
+
+      />
+
       <ContainerInput>
         <Input           
           secureTextEntry={true}
@@ -167,3 +208,19 @@ export default function SignUp({ navigation }) {
     </Container>
   );
 }
+
+const styles = StylesSheet.create({
+  input: {
+  width: '80%',
+  height: 50,
+  marginTop: 20,
+  padding: 10,
+  borderWidth: 1,
+  borderColor: '#BF8DB2',
+  borderRadius: 7,
+  flexDirection: 'row',
+  fontFamily: 'Anton_400Regular',
+  fontSize: 18,
+  color: '#FFF'
+  }
+})

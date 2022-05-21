@@ -94,7 +94,8 @@ export default function Address({ navigation }) {
       })
     })
     Alert.alert('SUCESSO', 'Pedido efetuado!!!');
-    navigation.navigate("MyBar");
+    navigation.navigate("ProductProgress");
+    Alert.alert('Infomração', 'Seu pedido foi recebido e logo saíra para entrega!');
   }
 
   return (

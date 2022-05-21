@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { CommonActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {    
     TouchableOpacity,      
@@ -53,21 +55,51 @@ export default function SignIn({navigation}) {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);  
   
 
+  const storeUserCache = async (value) => {
+    try{
+      value.password = password;
+      const jsonValue = JSON.stringfy(value);
+      await AsyncStorage.setItem('user', jsonValue);
+
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'MyBar'}],
+        }),
+      ); 
+    } catch(e) {
+      console.log('SignIn: erro em storeUSerCache: ' + e);
+    }
+  }
+
+  //Busca dados do usuário
+  function getUser(){
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .get()
+      .then((doc) => {
+        if(doc.exists) {          
+          storeUserCache(doc.data());
+        } else {
+          console.log('O documento não existe na base de dados');
+        } 
+      })
+      .catch((e) => {
+        console.log('SignIn: erro em getUser: ' + e);
+      });
+  }  
+
   function signIn(){
     if(email !== '' && password !== ''){      
 
       auth().signInWithEmailAndPassword(email, password)
       .then(() => {
         if(!auth().currentUser.emailVerified){
-          Alert.alert('Erro', 'Você deve verificar o seu email para prosseguir.');          
-        }else{
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{name: 'MyBar'}],
-            }),
-          );
-        }                
+          Alert.alert('Erro', 'Você deve verificar o seu email para prosseguir.');
+          return;
+        }
+        getUser();                               
       })
       .catch((e) => {
         console.log('SignIn: erro ao entrar: ' + e);

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
 
+import Loading from '../../components/Loading';
+
 import {
   Container,
   TextPrincipal,
@@ -22,9 +24,9 @@ import firestore from '@react-native-firebase/firestore';
 import { FontAwesome, Feather } from '@expo/vector-icons';
 
 export default function Cart({ navigation }) {
-  const [cart, setCart] = useState([]);
-  const [favorite, setFavorite] = useState(false);
+  const [cart, setCart] = useState([]);  
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const wait = (timeout) => {
     return new Promise((resolver) => setTimeout(resolver, timeout * 1000));
@@ -51,10 +53,12 @@ export default function Cart({ navigation }) {
             title: doc.data().title,
             notes: doc.data().notes,
             price: doc.data().price,
+            favorite: false
           };
           list.push(cartItems);
         });
         setCart(list);
+        setLoading(false);
       })
       .catch((e) => {
         console.log('Cart, useEffect: ' + e);
@@ -68,6 +72,20 @@ export default function Cart({ navigation }) {
       .doc(id)
       .delete()
       .then(() => {});
+  }
+  
+  function setFavorite(id){
+    const cartUpdate = card.map(item => {
+      return {
+        id: doc.id,
+        image: item.image,
+        title: item.title,
+        notes: item.notes,
+        price: item.price,
+        favorite: !item.favorite
+      }
+    });
+    setCart(cartUpdate);
   }
 
   return (
@@ -97,11 +115,11 @@ export default function Cart({ navigation }) {
                   <Feather name="trash-2" size={25} color={'#000'} />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => setFavorite(!favorite)}
+                  onPress={() => setFavorite(item.id)}
                   style={{ marginLeft: 15 }}
                 >
                   <FontAwesome
-                    name={favorite ? 'star' : 'star-o'}
+                    name={item.favorite ? 'star' : 'star-o'}
                     size={25}
                     color={'#000'}
                   />
@@ -120,6 +138,8 @@ export default function Cart({ navigation }) {
           <TextButton>ACOMPANHAR PEDIDO</TextButton>
         </CustomButtom>
       </ContainerButtons>
+
+      {loading && <Loading/>}
     </Container>
   );
 }

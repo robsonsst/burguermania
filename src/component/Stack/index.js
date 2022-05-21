@@ -25,6 +25,8 @@ import AddAddress from "../../pages/Address/AddAddress";
 import ProductProgress from "../../pages/ProductProgress";
 import Preload from "../../pages/Preload";
 import ResetPassword from "../../pages/ResetPassword";
+import AddEvaluate from "../../pages/Evaluate/AddEvaluate";
+import Evaluate from "../../pages/Evaluate";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,7 +59,7 @@ export default function MyStack() {
 
   */
   return (
-    <Stack.Navigator initialRouteName="SignIn" screenOptions={{
+    <Stack.Navigator initialRouteName="Preload" screenOptions={{
       headerTintColor: '#fff'
     }}>
       
@@ -322,7 +324,41 @@ export default function MyStack() {
             backgroundColor: '#8c4e77',
           },                    
         }} 
-      />        
+      />
+      
+      <Stack.Screen 
+        name="Evaluate" 
+        component={Evaluate}
+        options={{
+          headerTitle: (props) => (
+            <Image
+              style={{ width: 250, height: 80, marginBottom: 10 }}
+              source={require("../../assets/burguer-mania-logo.png")}
+              resizeMode="contain"
+            />
+          ),
+          headerStyle: {
+            backgroundColor: '#8c4e77',
+          },                    
+        }} 
+      />
+
+      <Stack.Screen 
+        name="AddEvaluate" 
+        component={AddEvaluate}
+        options={{
+          headerTitle: (props) => (
+            <Image
+              style={{ width: 250, height: 80, marginBottom: 10 }}
+              source={require("../../assets/burguer-mania-logo.png")}
+              resizeMode="contain"
+            />
+          ),
+          headerStyle: {
+            backgroundColor: '#8c4e77',
+          },                    
+        }} 
+      />
     </Stack.Navigator>
   );
 }

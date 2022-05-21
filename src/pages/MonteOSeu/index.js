@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
-import { View, FlatList, TouchableOpacity } from 'react-native';
+import { View, FlatList,Text, TouchableOpacity } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 import {
   Container,
@@ -13,8 +14,9 @@ import {
   CustomButton,
   CustomButtonText,
 } from './styles';
+import PickerCheese from '../../component/picker/PickerCheese';
 
-export default function MonteOSeu() {
+export default function MonteOSeu(props) {
 
   const [monteOSeu, setMonteOSeu] = useState([]);
 
@@ -22,6 +24,13 @@ export default function MonteOSeu() {
   const [title, setTitle] = useState('');  
   const [price, setPrice] = useState('');
   const [notes, setNotes] = useState('');
+  const [breadType, setBreadType] = useState('');
+  const [cheeseType, setCheeseType] = useState([]);
+  const [sauceType, setTypeSauce] = useState([]);
+  const [beefSelected, setBeefSelected] = useState(['Mal passada', 'Bem passada']);
+  const [cheeseQuantity, setCheeseQuantity] = useState('');
+
+  let pao;  
 
   //Busca os dados no firebase
   useEffect(() => {
@@ -34,8 +43,8 @@ export default function MonteOSeu() {
   
         let list = [];
   
-        querySnapshot.forEach((doc) => {
-  
+        querySnapshot.forEach((doc) => {          
+                         
           const opcoes = {
   
             id: doc.id,
@@ -80,6 +89,7 @@ export default function MonteOSeu() {
         data={monteOSeu}        
         renderItem={({ item }) => {
           return (
+            pao = item.title,
             <Items>              
                 <ProductImage
                   source={{ uri: item.image }}                  
@@ -87,6 +97,18 @@ export default function MonteOSeu() {
                 <ContainerTexts>
                   <ProductText> {item.title} </ProductText>                 
                   <ProductText>R$ {item.price}</ProductText>
+                  {                    
+                    pao === 'Pão' ?
+                      <PickerCheese
+                      selectedValue={sauceType}
+                      onValueChange={(itemSelect, indexItem) => {
+                        setSauceType(itemSelect);                        
+                        console.log(this.props.sauceType);
+                      }}        
+                      />
+                    : console.log(pao)
+                  }              
+                  
                 </ContainerTexts>                            
             </Items>
           );
