@@ -5,11 +5,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNRestart from 'react-native-restart';
 
 import {
+  Container,
+  Title,
+  OptionsProfile,
+  TextOptions,
   ButtonLogout,
   TextButton
 } from './styles';
 
-export default function Profile() {
+export default function Profile({navigation}) {  
 
   function signOut() {
     AsyncStorage.removeItem('user')
@@ -28,11 +32,19 @@ export default function Profile() {
   }
 
   return (
-    <View>
-        <Text>Página do perfil</Text>
-        <ButtonLogout onPress={signOut}>
-          <TextButton>Página do perfil</TextButton>
-        </ButtonLogout>
-    </View>
+    <Container>
+      <Title>Perfil</Title>
+
+      <OptionsProfile onPress={() => navigation.navigate('Evaluate')}>
+        <TextOptions>Avaliações</TextOptions>
+      </OptionsProfile>
+      
+      <OptionsProfile onPress={() => navigation.navigate('ProductProgress')}>
+        <TextOptions>Acompanhar pedido</TextOptions>
+      </OptionsProfile>
+      <ButtonLogout onPress={signOut}>
+        <TextButton>Sair</TextButton>
+      </ButtonLogout>
+    </Container>
   );
 }

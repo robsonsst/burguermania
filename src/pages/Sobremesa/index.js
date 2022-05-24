@@ -15,10 +15,12 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 import { CommonActions } from '@react-navigation/native';
+import LoadingComponent from '../../component/Loading';
 
 export default function Sobremesa({ navigation }) {
   
   const [sobremesa, setSobremesa] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //Busca os dados no firebase
   useEffect(() => {
@@ -45,6 +47,7 @@ export default function Sobremesa({ navigation }) {
           list.push(sob);     
         });
         setSobremesa(list);
+        setLoading(false);
       })
       .catch((e) => {
         console.log('Sobremesa, useEffect: ' + e);
@@ -91,6 +94,7 @@ export default function Sobremesa({ navigation }) {
           );
         }}
       />
+      {loading && <LoadingComponent/>}
     </Container>
   );
 }

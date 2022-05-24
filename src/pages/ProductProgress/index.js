@@ -1,3 +1,4 @@
+import { CommonActions } from '@react-navigation/native';
 import React from 'react';
 
 import {
@@ -12,7 +13,13 @@ export default function ProductProgress({navigation}) {
    <Container>
      <Title>Acompanhe seu pedido</Title>
 
-     <ButtonConfirm onPress={() => navigation.navigate('AddEvaluate')}>
+     <ButtonConfirm onPress={() => navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'AddEvaluate'}],
+        }),
+      )}
+      >
        <TextButton>Confirmar recebimento</TextButton>
      </ButtonConfirm>
    </Container>

@@ -58,7 +58,7 @@ export default function SignIn({navigation}) {
   const storeUserCache = async (value) => {
     try{
       value.password = password;
-      const jsonValue = JSON.stringfy(value);
+      const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('user', jsonValue);
 
       navigation.dispatch(
@@ -68,7 +68,7 @@ export default function SignIn({navigation}) {
         }),
       ); 
     } catch(e) {
-      console.log('SignIn: erro em storeUSerCache: ' + e);
+      console.log('SignIn: erro em storeUserCache: ' + e);
     }
   }
 
@@ -194,7 +194,7 @@ export default function SignIn({navigation}) {
         </CustomButton>
       </ContainerButtons>
 
-      <TextOtherOptions>-------------------- Ou -------------------</TextOtherOptions>
+      <TextOtherOptions>Ou faça login com redes sociais</TextOtherOptions>
       
       <ContainerButtonSocial>
         <ButtonSocial>

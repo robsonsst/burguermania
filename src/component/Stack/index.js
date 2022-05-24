@@ -107,7 +107,7 @@ export default function MyStack() {
         options={{
           headerTitle: (props) => (
             <Image
-              style={{ width: 375, height: 80, marginBottom: 10 }}
+              style={{ width: 375, height: 80, marginBottom: 10}}
               source={require("../../assets/burguer-mania-logo.png")}
               resizeMode="contain"
             />
@@ -349,7 +349,7 @@ export default function MyStack() {
         options={{
           headerTitle: (props) => (
             <Image
-              style={{ width: 250, height: 80, marginBottom: 10 }}
+              style={{ width: 250, height: 80, marginBottom: 10, left: 55 }}
               source={require("../../assets/burguer-mania-logo.png")}
               resizeMode="contain"
             />

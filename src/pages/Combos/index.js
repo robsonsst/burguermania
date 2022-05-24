@@ -15,10 +15,12 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 import { CommonActions } from '@react-navigation/native';
+import LoadingComponent from '../../component/Loading';
 
 export default function Combos({ navigation }) {
   
   const [combos, setCombos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //Busca os dados no firebase
   useEffect(() => {
@@ -45,6 +47,7 @@ export default function Combos({ navigation }) {
           list.push(comb);     
         });
         setCombos(list);
+        setLoading(false);
       })
       .catch((e) => {
         console.log('Combos, useEffect: ' + e);
@@ -91,6 +94,7 @@ export default function Combos({ navigation }) {
           );
         }}
       />
+      {loading && <LoadingComponent/>}
     </Container>
   );
 }

@@ -80,7 +80,8 @@ export const TextCustomButton = styled.Text`
 `;
 
 export const TextOtherOptions = styled.Text`
-  color: ${props => props.theme.primaryText};
+  margin-top: 15px;  
+  color: ${props => props.theme.background};
   font-family: ${props => props.theme.regular};
   font-size: 18px;
   font-weight: bold;

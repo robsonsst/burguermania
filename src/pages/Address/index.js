@@ -17,6 +17,7 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 import { Feather } from '@expo/vector-icons';
+import { CommonActions } from '@react-navigation/native';
 
 export default function Address({ navigation }) {
   const [address, setAddress] = useState([]);
@@ -92,10 +93,15 @@ export default function Address({ navigation }) {
       querySnapshot.forEach((idCart)=>{                
         idCart.ref.delete();
       })
-    })
-    Alert.alert('SUCESSO', 'Pedido efetuado!!!');
-    navigation.navigate("ProductProgress");
-    Alert.alert('Infomração', 'Seu pedido foi recebido e logo saíra para entrega!');
+    })    
+    Alert.alert('Sucesso!!', 'Seu pedido foi recebido e logo saíra para entrega!');
+    
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'ProductProgress'}],
+      }),
+    );
   }
 
   return (

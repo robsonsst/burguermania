@@ -17,9 +17,11 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 import { Feather } from "@expo/vector-icons";
+import LoadingComponent from '../../../component/Loading';
 
 export default function Address({ navigation }) {
   const [card, setCard] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //Busca os dados no firebase
   useEffect(() => {
@@ -44,6 +46,7 @@ export default function Address({ navigation }) {
           list.push(cardItems);
         });
         setCard(list);
+        setLoading(false);
       })
       .catch((e) => {
         console.log('Card, useEffect: ' + e);
@@ -87,6 +90,7 @@ export default function Address({ navigation }) {
           <TextButton>ADICIONAR CARTÃO</TextButton>
         </CustomButtom>        
       </ContainerButtons>
+      {loading && <LoadingComponent/>}
     </Container>
   );
 }

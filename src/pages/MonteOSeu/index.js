@@ -15,6 +15,7 @@ import {
   CustomButtonText,
 } from './styles';
 import PickerCheese from '../../component/picker/PickerCheese';
+import LoadingComponent from '../../component/Loading';
 
 export default function MonteOSeu(props) {
 
@@ -29,6 +30,8 @@ export default function MonteOSeu(props) {
   const [sauceType, setTypeSauce] = useState([]);
   const [beefSelected, setBeefSelected] = useState(['Mal passada', 'Bem passada']);
   const [cheeseQuantity, setCheeseQuantity] = useState('');
+
+  const [loading, setLoading] = useState(true);
 
   let pao;  
 
@@ -56,6 +59,7 @@ export default function MonteOSeu(props) {
           list.push(opcoes);     
         });
         setMonteOSeu(list);
+        setLoading(false);
       })
       .catch((e) => {
   
@@ -120,6 +124,7 @@ export default function MonteOSeu(props) {
           <CustomButtonText>ADICIONAR AO CARRINHO</CustomButtonText>
         </CustomButton>
       </View>
+      {loading && <LoadingComponent/>}
     </Container>
   );
 }

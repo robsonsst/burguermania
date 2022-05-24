@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
 
-import Loading from '../../components/Loading';
+
 
 import {
   Container,
@@ -22,21 +22,21 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 import { FontAwesome, Feather } from '@expo/vector-icons';
+import LoadingComponent from '../../component/Loading';
 
 export default function Cart({ navigation }) {
   const [cart, setCart] = useState([]);  
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  const wait = (timeout) => {
-    return new Promise((resolver) => setTimeout(resolver, timeout * 1000));
-  };
-
-  const onRefresh = useCallback(async () => {
+  
+  const onRefresh = () => {
     setRefreshing(true);
-    await wait(2);
-    setRefreshing(false);
-  }, []);
+    
+    console.log(cart);
+    setTimeout(()=>{
+      setRefreshing(false)
+    },1000)    
+  };
 
   //Busca os dados no firebase
   useEffect(() => {
@@ -57,8 +57,8 @@ export default function Cart({ navigation }) {
           };
           list.push(cartItems);
         });
-        setCart(list);
-        setLoading(false);
+        setCart(list);        
+        setLoading(false);        
       })
       .catch((e) => {
         console.log('Cart, useEffect: ' + e);
@@ -71,13 +71,13 @@ export default function Cart({ navigation }) {
       .collection('cart')
       .doc(id)
       .delete()
-      .then(() => {});
+      .then(() => {});      
   }
   
   function setFavorite(id){
-    const cartUpdate = card.map(item => {
+    const cartUpdate = cart.map(item => {
       return {
-        id: doc.id,
+        id: item.id,
         image: item.image,
         title: item.title,
         notes: item.notes,
@@ -85,6 +85,7 @@ export default function Cart({ navigation }) {
         favorite: !item.favorite
       }
     });
+    console.log(id);
     setCart(cartUpdate);
   }
 
@@ -97,7 +98,10 @@ export default function Cart({ navigation }) {
         showsVerticalScrollIndicator={false}
         data={cart}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl 
+            refreshing={refreshing}
+            onRefresh={()=> onRefresh()}
+          />
         }
         renderItem={({ item }) => {
           return (
@@ -133,13 +137,10 @@ export default function Cart({ navigation }) {
       <ContainerButtons>
         <CustomButtom onPress={() => navigation.navigate('Payment')}>
           <TextButton>EFETUAR COMPRA</TextButton>
-        </CustomButtom>
-        <CustomButtom onPress={() => navigation.navigate('ProductProgress')}>
-          <TextButton>ACOMPANHAR PEDIDO</TextButton>
-        </CustomButtom>
+        </CustomButtom>        
       </ContainerButtons>
 
-      {loading && <Loading/>}
+      {loading && <LoadingComponent/>}
     </Container>
   );
 }

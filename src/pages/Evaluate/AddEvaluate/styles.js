@@ -14,10 +14,10 @@ export const Title = styled.Text`
 `;
 
 export const Input = styled.TextInput`
-  width: 80%;
-  height: 150px;
+  width: 95%;
+  height: 120px;
   margin-top: 20px;
-  padding: 10px;
+  padding: 10px;  
   border-width: 1px;
   border-color: ${props => props.theme.secondaryText};
   border-radius: 7px;  
@@ -28,24 +28,26 @@ export const Input = styled.TextInput`
 `;
 
 export const ButtonEvaluate = styled.TouchableOpacity`
-  width: 80%;
+  width: 95%;
   height: 50px;
+  top: 200px;
   margin-top: 25px;
-  margin-left: 20px;
-  margin-right: 20px;     
-  background-color: ${props => props.theme.backgroundChat};
+  margin-left: 6px;
+  margin-right: 10px;       
+  background-color: ${props => props.theme.button};
   border-radius: 7px;
   justify-content: center;
   align-items: center; 
 `;
 
 export const ButtonNotEvaluate = styled.TouchableOpacity`
-  width: 80%;
+  width: 95%;
   height: 50px;
-  margin-top: 25px;
-  margin-left: 20px;
-  margin-right: 20px;     
-  background-color: ${props => props.theme.button};
+  top: 200px;
+  margin-top: 15px;
+  margin-left: 6px;
+  margin-right: 10px;       
+  background-color: ${props => props.theme.backgroundChat};
   border-radius: 7px;
   justify-content: center;
   align-items: center; 

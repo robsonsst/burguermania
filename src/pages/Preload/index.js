@@ -23,7 +23,7 @@ export default function Preload({navigation}){
     }
   };
 
-  function loginUser = async () => {
+  const loginUser = async () => {
     const user = await getUserCache();
     
     if(user){
@@ -55,7 +55,7 @@ export default function Preload({navigation}){
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{name: 'MyBar'}],
+          routes: [{name: 'SignIn'}],
         }),
       );                                
     }

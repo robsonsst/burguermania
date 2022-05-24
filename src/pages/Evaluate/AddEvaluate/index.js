@@ -11,8 +11,9 @@ import {
   ButtonNotEvaluate,
   TextButton
 } from './styles';
+import { CommonActions } from '@react-navigation/native';
 
-export default function AddEvaluate() {
+export default function AddEvaluate({ navigation }) {
 
   const [productsEvaluate, setProductsEvaluate] = useState('');
   const [deliveryEvaluate, setDeliveryEvaluate] = useState('');
@@ -21,14 +22,29 @@ export default function AddEvaluate() {
     if(productsEvaluate !== '' && deliveryEvaluate !== ''){
       firestore().collection('evaluate').add({      
         productsEvaluate: productsEvaluate,
-        deliveryEvaluate: deliveryEvaluate,      
-        
-      });
-      navigation.navigate('MyBar');
+        deliveryEvaluate: deliveryEvaluate,              
+      });      
+      Alert.alert('Informação', 'Obrigado pela preferência e pelo feedback. Aguardamos seu próximo pedido!')
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'MyBar'}],
+        }),
+      );
     } else {
       Alert.alert('Erro', 'Digite nos campos para adicionar sua avaliação!');
     }
+  }
 
+  function noEvaluate(){
+    Alert.alert('Informação', 'Obrigado pela preferência. Aguardamos seu próximo pedido!')
+
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'MyBar'}],
+      }),
+    )
   }
 
   return (
@@ -55,7 +71,7 @@ export default function AddEvaluate() {
         <TextButton>AVALIAR</TextButton>
       </ButtonEvaluate>
 
-      <ButtonNotEvaluate onPress={() => navigation.navigate('MyBar')}>
+      <ButtonNotEvaluate onPress={noEvaluate}>
         <TextButton>PULAR</TextButton>
       </ButtonNotEvaluate>
     </Container>

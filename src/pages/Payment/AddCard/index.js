@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import firestore from '@react-native-firebase/firestore';
 
 import {  
-  Alert, View
+  Alert, View, StyleSheet
 } from 'react-native';
 
 import { 
@@ -16,15 +16,17 @@ import {
   TextButton 
 } from './styles';
 
+import { TextInputMask } from 'react-native-masked-text';
+
 export default function AddCard({ navigation }) {
   
-  const [numberCard, setnumberCard] = useState('');
+  const [numberCard, setNumberCard] = useState('');
   const [validity, setValidity] = useState('');
   const [cvv, setCvv] = useState('');
   const [cardHolder, setCardHolder] = useState('');
   const [cpf, setCpf] = useState('');
   const [nickName, setNickName] = useState('');  
-  const [selectedPayment, setSelectedPayment] = useState(''); 
+  const [selectedPayment, setSelectedPayment] = useState('');   
   //TODO: corrigir select de pagamento  
 
   function verifications() {
@@ -40,6 +42,7 @@ export default function AddCard({ navigation }) {
       Alert.alert('ERRO', 'Campos vazios');
       return; //Não executa o que está abaixo
     }  
+    cpfValid();
     firestore().collection('card').add({      
       numberCard: numberCard,
       validity: validity,      
@@ -50,39 +53,47 @@ export default function AddCard({ navigation }) {
       selectedPayment: selectedPayment,      
     });
     navigation.navigate('Card');
-  }
+  }  
 
   return (
     <Container>            
 
-      <TextPrincipal>DADOS DO CARTÃO</TextPrincipal>
+      <TextPrincipal>DADOS DO CARTÃO</TextPrincipal>      
 
-      <ContainerInput>
-        <Input          
-          placeholder="Número do Cartão"
-          placeholderTextColor={'#BF8DB2'}
-          value={numberCard}
-          onChangeText={(value) => setnumberCard(value)}
-        />
-      </ContainerInput>
+      <TextInputMask
+        style={styles.input}
+        placeholder="Número do Cartão"
+        placeholderTextColor={'#BF8DB2'}
+        type='credit-card'
+        options={{
+          obfuscaded: false,
+          issuer: 'visa-or-mastercard'
+        }}
+        value={numberCard}
+        onChangeText={(value) => setNumberCard(value)}
+      />      
 
-      <ContainerInput>
-        <Input          
-          placeholder="Validade"
-          placeholderTextColor={'#BF8DB2'}
-          value={validity}
-          onChangeText={(value) => setValidity(value)}
-        />
-      </ContainerInput>
+      <TextInputMask
+        style={styles.input}
+        placeholder="Validade"
+        placeholderTextColor={'#BF8DB2'}
+        type='datetime'
+        options={{
+          format: 'MM/YYYY'
+        }}
+        value={validity}
+        onChangeText={(value) => setValidity(value)}
+      />      
 
-      <ContainerInput>
-        <Input          
-          placeholder="CVV"
-          placeholderTextColor={'#BF8DB2'}
-          value={cvv}
-          onChangeText={(value) => setCvv(value)}
-        />
-      </ContainerInput>
+      <TextInputMask
+        style={styles.input}
+        placeholder="CVV"
+        placeholderTextColor={'#BF8DB2'}
+        type='only-numbers'
+        maxLength={3}
+        value={cvv}
+        onChangeText={(value) => setCvv(value)}
+      />
 
       <ContainerInput>
         <Input          
@@ -91,16 +102,16 @@ export default function AddCard({ navigation }) {
           value={cardHolder}
           onChangeText={(value) => setCardHolder(value)}
         />
-      </ContainerInput>
+      </ContainerInput>            
 
-      <ContainerInput>
-        <Input          
-          placeholder="CPF"
-          placeholderTextColor={'#BF8DB2'}
-          value={cpf}
-          onChangeText={(value) => setCpf(value)}
-        />
-      </ContainerInput>
+      <TextInputMask
+        style={styles.input}
+        placeholder="CPF"
+        placeholderTextColor={'#BF8DB2'}
+        type='cpf'
+        value={cpf}
+        onChangeText={(value) => setCpf(value)}
+      />
 
       <ContainerInput>
         <Input          
@@ -112,7 +123,7 @@ export default function AddCard({ navigation }) {
       </ContainerInput>   
 
       <View>
-        <Picker style={{width: 340, height: 90}}
+        <Picker style={styles.picker}
           selectedValue={selectedPayment}
           onValueChange={(item, indexItem) => {            
               setSelectedPayment(item);            
@@ -138,3 +149,25 @@ export default function AddCard({ navigation }) {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  input:{
+    alignSelf: 'center',
+    width: '80%',
+    height: 50,
+    marginTop: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#BF8DB2',
+    borderRadius: 7,    
+    fontFamily: 'Anton_400Regular',
+    fontSize: 18,
+    color: '#FFF'    
+  },
+  picker:{
+    alignSelf: 'center',
+    width: 340, 
+    height: 90,    
+    color: '#BF8DB2',
+  }
+})

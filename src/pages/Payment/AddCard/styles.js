@@ -1,21 +1,21 @@
 import styled from "styled-components/native";
 
-export const Container = styled.SafeAreaView`  
+export const Container = styled.ScrollView`  
   flex: 1;
-  background-color: ${props => props.theme.primary};
-  justify-content: center;
-  align-items: center;
+  background-color: ${props => props.theme.primary};    
 `;
 
 export const TextPrincipal = styled.Text`
   font-weight: bold;
   font-size: 25px;
   color: ${props => props.theme.background};  
-  margin-right: 80px;
+  margin-top: 15px;
+  margin-left: 15px;
   margin-bottom: 10px;
 `;
 
 export const ContainerInput = styled.View`
+  align-self: center;
   width: 80%;
   height: 50px;
   margin-top: 20px;
@@ -34,6 +34,7 @@ export const Input = styled.TextInput`
 `;
 
 export const ContainerButton = styled.TouchableOpacity`
+  align-self: center;
   width: 80%;
   height: 50px;
   margin-top: 20px;

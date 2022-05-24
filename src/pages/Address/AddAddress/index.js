@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
 import {  
-  Alert
+  Alert, StyleSheet
 } from 'react-native';
+
+import { TextInputMask } from 'react-native-masked-text';
 
 import { 
   Container,     
@@ -61,7 +63,7 @@ export default function AddAddress({ navigation }) {
           title: doc.data().title,
           notes: doc.data().notes,
           price: doc.data().price,
-        };          
+        };                  
         list.push(cartItems);
         idCart = cartItems.id;
       });      
@@ -70,7 +72,7 @@ export default function AddAddress({ navigation }) {
       console.log('Cart, useEffect: ' + e);
     });        
     navigation.navigate('Address');    
-  }
+  }  
 
   //deleta produtos do carrinho ao finalizar compra
   function deleteCart(){
@@ -96,16 +98,17 @@ export default function AddAddress({ navigation }) {
           value={city}
           onChangeText={(value) => setCity(value)}
         />
-      </ContainerInput>
+      </ContainerInput>      
 
-      <ContainerInput>
-        <Input          
-          placeholder="CEP"
-          placeholderTextColor={'#BF8DB2'}
-          value={cep}
-          onChangeText={(value) => setCep(value)}
-        />
-      </ContainerInput>
+      <TextInputMask
+        style={styles.input}
+        placeholder="CEP"
+        placeholderTextColor={'#BF8DB2'}
+        type='only-numbers'
+        maxLength={8}        
+        value={cep}
+        onChangeText={(value) => setCep(value)}
+      />
 
       <ContainerInput>
         <Input          
@@ -123,15 +126,17 @@ export default function AddAddress({ navigation }) {
           value={street}
           onChangeText={(value) => setStreet(value)}
         />
-      </ContainerInput>
-      <ContainerInput>
-        <Input          
-          placeholder="Número"
-          placeholderTextColor={'#BF8DB2'}
-          value={number}
-          onChangeText={(value) => setNumber(value)}
-        />
-      </ContainerInput>      
+      </ContainerInput>           
+
+      <TextInputMask
+        style={styles.input}
+        placeholder="Número"
+        placeholderTextColor={'#BF8DB2'}
+        type='only-numbers'
+        maxLength={10}        
+        value={number}
+        onChangeText={(value) => setNumber(value)}
+      />
 
       <ContainerInput>
         <Input          
@@ -151,3 +156,18 @@ export default function AddAddress({ navigation }) {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  input:{    
+    width: '80%',
+    height: 50,
+    marginTop: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#BF8DB2',
+    borderRadius: 7,    
+    fontFamily: 'Anton_400Regular',
+    fontSize: 18,
+    color: '#FFF'    
+  }
+})

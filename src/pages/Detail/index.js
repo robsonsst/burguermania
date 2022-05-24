@@ -31,7 +31,7 @@ export default function Detail({ navigation, route }) {
   const [price, setPrice] = useState('');
   const [notes, setNotes] = useState('');
 
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(0);  
 
   function increment() {
     setCounter(counter + 1);
@@ -65,7 +65,7 @@ export default function Detail({ navigation, route }) {
     setImage(route.params.image);
     setTitle(route.params.title);
     setDescription(route.params.description);
-    setPrice(route.params.price);
+    setPrice(route.params.price);    
   }, []);
 
   return (
@@ -123,7 +123,7 @@ export default function Detail({ navigation, route }) {
             <TextButtonAddCart> R$ {approach(priceCart)} </TextButtonAddCart>
           </ButtonAddCart>
         )}
-      </ContainerAddCart>
+      </ContainerAddCart>      
     </Container>
   );
 }

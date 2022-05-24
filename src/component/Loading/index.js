@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
 
-export default function Loading(){
+export default function LoadingComponent(){
   return(
     <LoadingArea>
       <ActivityIndicator size='large' color='#8c4e77'/>

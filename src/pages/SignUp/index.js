@@ -50,7 +50,7 @@ export default function SignUp({ navigation }) {
             let user = {};
             user.email = email;
             user.nome = nome;          
-            user.sobrenome = sobre;
+            user.sobrenome = sobrenome;
             user.usuario = usuario;
             user.telefone = telefone;
   
@@ -109,8 +109,7 @@ export default function SignUp({ navigation }) {
         <Input          
           placeholder="E-mail"
           placeholderTextColor={'#BF8DB2'}
-          keyboardType="email-address"
-          returnKeyType="next"
+          keyboardType="email-address"          
           value={email}          
           onChangeText={(value) => setEmail(value)}
           
@@ -121,8 +120,7 @@ export default function SignUp({ navigation }) {
         <Input          
           placeholder="Nome"
           placeholderTextColor={'#BF8DB2'}
-          value={nome}
-          returnKeyType="next"
+          value={nome}          
           onChangeText={(value) => setNome(value)}          
         />
       </ContainerInput>
@@ -131,8 +129,7 @@ export default function SignUp({ navigation }) {
         <Input                  
           placeholder="Sobrenome"
           placeholderTextColor={'#BF8DB2'}
-          value={sobrenome}
-          returnKeyType="next"
+          value={sobrenome}          
           onChangeText={(value) => setSobrenome(value)}
         />
       </ContainerInput>
@@ -141,21 +138,10 @@ export default function SignUp({ navigation }) {
         <Input                 
           placeholder="Nome de usuário"
           placeholderTextColor={'#BF8DB2'}
-          value={usuario}
-          returnKeyType="next"
+          value={usuario}          
           onChangeText={(value) => setUsuario(value)}          
         />
-      </ContainerInput>
-
-      <ContainerInput>
-        <Input              
-          placeholder="Telefone"
-          placeholderTextColor={'#BF8DB2'}
-          value={telefone}
-          returnKeyType="next"
-          onChangeText={(value) => setTelefone(value)}          
-        />
-      </ContainerInput>
+      </ContainerInput>      
 
       <TextInputMask
         style={styles.input} 
@@ -167,15 +153,15 @@ export default function SignUp({ navigation }) {
           withDDD: true,
           dddMask: '(99) '
         }}
-
+        value={telefone}        
+        onChangeText={(value) => setTelefone(value)}
       />
 
       <ContainerInput>
         <Input           
           secureTextEntry={true}
           placeholder="Senha"
-          placeholderTextColor={'#BF8DB2'}
-          returnKeyType="next"
+          placeholderTextColor={'#BF8DB2'}          
           value={password}
           onChangeText={(value) => setPassword(value)}          
         />
@@ -185,8 +171,7 @@ export default function SignUp({ navigation }) {
         <Input                
           secureTextEntry={true}
           placeholder="Confirmar Senha"
-          placeholderTextColor={'#BF8DB2'}
-          returnKeyType="go"
+          placeholderTextColor={'#BF8DB2'}          
           value={confirmPassword}
           onChangeText={(value) => setConfirmPassword(value)}          
         />
@@ -209,7 +194,7 @@ export default function SignUp({ navigation }) {
   );
 }
 
-const styles = StylesSheet.create({
+const styles = StyleSheet.create({
   input: {
   width: '80%',
   height: 50,

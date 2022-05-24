@@ -10,6 +10,9 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#8c4e77"
+    },
+    "android": {
+      "package": "com.burguermania"
     }
   },
   "name": "burguermania"

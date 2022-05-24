@@ -15,10 +15,12 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 import { CommonActions } from '@react-navigation/native';
+import LoadingComponent from '../../component/Loading';
 
 export default function HambDaCasa({ navigation }) {
   
   const [hambDaCasa, setHambDaCasa] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //Busca os dados no firebase
   useEffect(() => {
@@ -45,6 +47,7 @@ export default function HambDaCasa({ navigation }) {
           list.push(hamburgueres);     
         });
         setHambDaCasa(list);
+        setLoading(false);
       })
       .catch((e) => {
   
@@ -92,6 +95,7 @@ export default function HambDaCasa({ navigation }) {
           );
         }}
       />
+      {loading && <LoadingComponent/>}
     </Container>
   );
 }
