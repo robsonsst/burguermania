@@ -14,13 +14,13 @@ export const Title = styled.Text`
 `;
 
 export const ButtonConfirm = styled.TouchableOpacity`
+  top: 500px;
   width: 100%;
   height: 50px;
   background-color: ${props => props.theme.button};
   border-radius: 7px;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
 `;
 
 export const TextButton = styled.Text`
@@ -28,4 +28,10 @@ export const TextButton = styled.Text`
   font-family: ${props => props.theme.regular};
   font-size: 18px;
   font-weight: bold;  
+`;
+export const Border = styled.View`  
+  width: 100%;
+  margin-top: 30px;
+  border-bottom-width: 4px;
+  border-bottom-color: ${props => props.theme.backgroundChat};
 `;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, FlatList, TouchableOpacity, RefreshControl, Alert } from 'react-native';
 
 
 
@@ -52,8 +52,7 @@ export default function Cart({ navigation }) {
             image: doc.data().image,
             title: doc.data().title,
             notes: doc.data().notes,
-            price: doc.data().price,
-            favorite: false
+            price: doc.data().price
           };
           list.push(cartItems);
         });
@@ -62,6 +61,7 @@ export default function Cart({ navigation }) {
       })
       .catch((e) => {
         console.log('Cart, useEffect: ' + e);
+          return;
       });
   }, []);
 
@@ -74,19 +74,15 @@ export default function Cart({ navigation }) {
       .then(() => {});      
   }
   
-  function setFavorite(id){
-    const cartUpdate = cart.map(item => {
-      return {
-        id: item.id,
-        image: item.image,
-        title: item.title,
-        notes: item.notes,
-        price: item.price,
-        favorite: !item.favorite
-      }
-    });
-    console.log(id);
-    setCart(cartUpdate);
+  function setFavorite(item){
+    firestore().collection('favorite').add({      
+      id: item.id,
+      image: item.image,
+      title: item.title,
+      notes: item.notes,
+      price: item.price
+    })
+    Alert.alert('Informação', 'Produto adicionado aos favoritos.');
   }
 
   return (
@@ -119,11 +115,11 @@ export default function Cart({ navigation }) {
                   <Feather name="trash-2" size={25} color={'#000'} />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => setFavorite(item.id)}
+                  onPress={() => setFavorite(item)}
                   style={{ marginLeft: 15 }}
                 >
                   <FontAwesome
-                    name={item.favorite ? 'star' : 'star-o'}
+                    name={'star-o'}
                     size={25}
                     color={'#000'}
                   />

@@ -42,7 +42,6 @@ export default function AddCard({ navigation }) {
       Alert.alert('ERRO', 'Campos vazios');
       return; //Não executa o que está abaixo
     }  
-    cpfValid();
     firestore().collection('card').add({      
       numberCard: numberCard,
       validity: validity,      

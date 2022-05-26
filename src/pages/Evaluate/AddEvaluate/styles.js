@@ -31,7 +31,6 @@ export const ButtonEvaluate = styled.TouchableOpacity`
   width: 95%;
   height: 50px;
   top: 200px;
-  margin-top: 25px;
   margin-left: 6px;
   margin-right: 10px;       
   background-color: ${props => props.theme.button};

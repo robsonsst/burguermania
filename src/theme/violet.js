@@ -6,7 +6,7 @@ export default {
   primaryText: '#000',
   secondaryText: '#BF8DB2',
   button: '#FFC805',
-  backgroundChat: '#8D8686',
+  backgroundChat: '#e2e2e2',
 
   //FONTS
   regular: 'Anton_400Regular',

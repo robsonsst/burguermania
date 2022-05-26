@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#000',
     marginLeft: 10,
-    marginBottom: 50
+    marginBottom: 30
   },
   message:{
     width: '90%',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     alignSelf: 'center',
-    backgroundColor: '#8D8686',
+    backgroundColor: '#e2e2e2',
     borderColor: '#BF8DB2',
     borderWidth: 1
   },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     width: '77%',
     height: 30,
     marginRight: 10,
-    backgroundColor: '#8D8686',
+    backgroundColor: '#e2e2e2',
     borderColor: '#BF8DB2',
     borderWidth: 1,
     borderRadius: 5
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   button:{
     width: '15%',
     height: 30,
-    backgroundColor: '#8D8686',
+    backgroundColor: '#e2e2e2',
     borderColor: '#BF8DB2',
     borderWidth: 1,
     borderRadius: 5

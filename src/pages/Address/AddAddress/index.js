@@ -128,15 +128,14 @@ export default function AddAddress({ navigation }) {
         />
       </ContainerInput>           
 
-      <TextInputMask
-        style={styles.input}
-        placeholder="Número"
-        placeholderTextColor={'#BF8DB2'}
-        type='only-numbers'
-        maxLength={10}        
-        value={number}
-        onChangeText={(value) => setNumber(value)}
-      />
+      <ContainerInput>
+        <Input          
+          placeholder="Número"
+          placeholderTextColor={'#BF8DB2'}
+          value={number}
+          onChangeText={(value) => setNumber(value)}
+        />
+      </ContainerInput>   
 
       <ContainerInput>
         <Input          
